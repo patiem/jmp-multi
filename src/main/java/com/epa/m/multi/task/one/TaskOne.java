@@ -17,7 +17,7 @@ public class TaskOne {
         experiment.startExperiment(sMap);
     }
 
-    private  void startExperiment(Map<Integer, Integer> map) {
+    void startExperiment(Map<Integer, Integer> map) {
         long startTime = System.currentTimeMillis();
         try {
             Thread thread1 = createMapThread(map);
@@ -37,7 +37,7 @@ public class TaskOne {
         }
     }
 
-    private Thread sumMapThread(Thread thread1, Map<Integer, Integer> map) {
+    Thread sumMapThread(Thread thread1, Map<Integer, Integer> map) {
         return new Thread(() -> {
             int sum;
             while (thread1.isAlive()) {
@@ -55,7 +55,7 @@ public class TaskOne {
         });
     }
 
-    private Thread createMapThread(Map<Integer, Integer> map) {
+    protected Thread createMapThread(Map<Integer, Integer> map) {
         return new Thread(() -> {
             for (int i = 0; i < 100; i++) {
                 map.put(i, i);

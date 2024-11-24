@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 
 public class TaskOne {
     public static void main(String[] args) {
@@ -57,7 +58,7 @@ public class TaskOne {
 
     protected Thread createMapThread(Map<Integer, Integer> map) {
         return new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
+            IntStream.iterate(1, i -> i + 1).limit(10).forEach( i -> {
                 map.put(i, i);
                 try {
                     Thread.sleep(10);
@@ -65,8 +66,7 @@ public class TaskOne {
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
                 }
-            }
-        });
+            });});
     }
 
     private int getSum(Map<Integer, Integer> map) {

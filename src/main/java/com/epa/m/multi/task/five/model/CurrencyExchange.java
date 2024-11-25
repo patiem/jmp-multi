@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class CurrencyExchange {
 
-        private final Map<CurrencyPair, BigDecimal> exchangeRates = new HashMap<>();
+    private final Map<CurrencyPair, BigDecimal> exchangeRates = new HashMap<>();
 
         public void setExchangeRate(Currency from, Currency to, BigDecimal rate) {
             if (rate.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Exchange rate unavailable for " + from + " to " + to);

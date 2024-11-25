@@ -1,8 +1,8 @@
 package com.epa.m.multi.task.three;
 
 public class Message {
-    private String topic;
-    private String payload;
+    private final String topic;
+    private final String payload;
 
     public Message(String topic, String payload) {
         this.topic = topic;

@@ -33,7 +33,7 @@ class AccountTest {
     }
 
     @Test
-    void testWithdrawalWithInsufficientFunds() throws InsufficientFundsException {
+    void testWithdrawalWithInsufficientFunds() {
         account.deposit(Currency.USD, BigDecimal.valueOf(100));
         assertThrows(InsufficientFundsException.class, () -> account.withdraw(Currency.USD, BigDecimal.valueOf(150)));
 

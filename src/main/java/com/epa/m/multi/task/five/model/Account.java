@@ -2,16 +2,21 @@ package com.epa.m.multi.task.five.model;
 
 import com.epa.m.multi.task.five.exception.InsufficientFundsException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class Account implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private String accountName;
-    private Map<Currency, BigDecimal> balances;
+    private static final Logger LOGGER = Logger.getLogger(Account.class.getName());
+
+    private final String accountName;
+    private final Map<Currency, BigDecimal> balances;
 
     public Account(String accountName) {
         this.accountName = accountName;
@@ -20,6 +25,7 @@ public class Account implements Serializable {
 
     public synchronized void deposit(Currency currency, BigDecimal amount) {
         balances.merge(currency, amount, BigDecimal::add);
+        LOGGER.info("Deposited " + amount + " to account " + accountName);
     }
 
     public synchronized void withdraw(Currency currency, BigDecimal amount) throws InsufficientFundsException {
@@ -29,6 +35,7 @@ public class Account implements Serializable {
             throw new InsufficientFundsException("Insufficient balance");
         }
         balances.put(currency, newBalance);
+        LOGGER.info("Withdrawn " + amount + " to account " + accountName);
     }
 
     public synchronized BigDecimal getBalance(Currency currency) {

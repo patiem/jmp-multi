@@ -7,7 +7,6 @@ import com.epa.m.multi.task.five.model.CurrencyExchange;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -77,7 +76,7 @@ class ExchangeServiceTest {
     }
 
     @Test
-    void testConcurrentExchanges() throws InterruptedException, Exception {
+    void testConcurrentExchanges() throws InterruptedException, IOException, ClassNotFoundException {
         Account account = new Account("concurrentAccount");
         account.deposit(Currency.USD, BigDecimal.valueOf(1000));
         when(accountService.getAccount("concurrentAccount")).thenReturn(account);

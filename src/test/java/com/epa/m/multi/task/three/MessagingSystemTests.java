@@ -59,10 +59,8 @@ class MessagingSystemTests {
         MessageBus messageBus = new MessageBus();
         Message message = new Message(topic, "testMessage");
 
-        // Test publishing
         messageBus.publish(message);
 
-        // Test consuming
         Message result = messageBus.consume(topic);
 
         assertNotNull(result);

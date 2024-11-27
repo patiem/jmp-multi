@@ -11,14 +11,19 @@ import java.math.BigDecimal;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class ExchangeApp {
+
+    private static final Logger LOGGER = Logger.getLogger(ExchangeApp.class.getName());
+
+
     public static void main(String[] args) {
         // Setup services and data
-        AccountDao accountDao = new AccountDao();
-        AccountService accountService = new AccountService(accountDao);
-        CurrencyExchange currencyExchange = new CurrencyExchange();
-        ExchangeService exchangeService = new ExchangeService(accountService, currencyExchange);
+        var accountDao = new AccountDao();
+        var accountService = new AccountService(accountDao);
+        var currencyExchange = new CurrencyExchange();
+        var exchangeService = new ExchangeService(accountService, currencyExchange);
 
         // Sample exchange rates
         currencyExchange.setExchangeRate(Currency.USD, Currency.EUR, BigDecimal.valueOf(0.85));
@@ -26,13 +31,13 @@ public class ExchangeApp {
 
         try {
             // Create and populate account
-            String accountName = "sampleAccount";
+            var accountName = "sampleAccount";
             accountService.createAccount(accountName);
             accountService.depositToAccount(accountName, Currency.USD, BigDecimal.valueOf(1000));
             accountService.depositToAccount(accountName, Currency.EUR, BigDecimal.valueOf(500));
 
             // Execute concurrent exchanges
-            ExecutorService executorService = Executors.newFixedThreadPool(2);
+            var executorService = Executors.newFixedThreadPool(2);
             for (int i = 0; i < 10; i++) {
                 int finalI = i;
                 executorService.submit(() -> {
@@ -43,7 +48,7 @@ public class ExchangeApp {
                             exchangeService.executeExchange(accountName, Currency.EUR, Currency.USD, BigDecimal.valueOf(100));
                         }
                     } catch (InsufficientFundsException e) {
-                        e.printStackTrace();
+                        LOGGER.info(e.getMessage());
                     }
                 });
             }
@@ -55,7 +60,7 @@ public class ExchangeApp {
             // Display final account state
             System.out.println(accountService.getAccount(accountName));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.info(e.getMessage());
         }
     }
 }

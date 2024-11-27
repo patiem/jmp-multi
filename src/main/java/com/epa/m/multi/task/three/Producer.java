@@ -21,7 +21,7 @@ public class Producer implements Runnable {
                 Thread.sleep((int) (Math.random() * 1000));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.out.println(this + ": Producer interrupted");
+                System.err.println(this + ": Producer interrupted");
                 break;
             }
         }
